@@ -22,5 +22,8 @@ create table Rents (
 	rent_id int primary key,
 	user_id int,
 	book_id int,
-	created_at datetime not null
+	created_at datetime not null,
+	foreign key (user_id) references Users(user_id),
+	foreign key (book_id) references Books(book_id)
 );
+
