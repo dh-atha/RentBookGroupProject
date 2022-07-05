@@ -2,7 +2,13 @@ package main
 
 import (
 	"RentBookGroupProject/db"
+	"RentBookGroupProject/entities/user"
+	"bufio"
 	"fmt"
+	"log"
+	"os"
+
+	"gorm.io/gorm"
 )
 
 func main() {
@@ -23,7 +29,7 @@ func main() {
 
 		switch inputMenuAwal {
 		case 1:
-			Register()
+			Register(conn)
 		case 2:
 			Login()
 		case 3:
@@ -36,7 +42,28 @@ func main() {
 	}
 }
 
-func Register() {}
+func Register(db *gorm.DB) {
+	scanner := bufio.NewScanner(os.Stdin)
+	fmt.Print("Your name: ")
+	scanner.Scan()
+	name := scanner.Text()
+	fmt.Print("Your email: ")
+	scanner.Scan()
+	email := scanner.Text()
+	fmt.Print("Password: ")
+	scanner.Scan()
+	password := scanner.Text()
+
+	user := user.User{Name: name, Email: email, Password: password}
+	// fmt.Println(user)
+	result := db.Create(&user)
+
+	if result.Error != nil {
+		log.Println("Email Registered")
+	} else {
+		fmt.Println("Successfully registered")
+	}
+}
 
 func Login() {}
 
