@@ -8,4 +8,5 @@ import (
 func main() {
 	conn := db.InitDB()
 	log.Println(conn)
+	db.MigrateDB(conn)
 }

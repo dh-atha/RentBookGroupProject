@@ -1,6 +1,9 @@
 package db
 
 import (
+	"RentBookGroupProject/entities/book"
+	"RentBookGroupProject/entities/rent"
+	"RentBookGroupProject/entities/user"
 	"log"
 
 	"gorm.io/driver/mysql"
@@ -14,4 +17,10 @@ func InitDB() *gorm.DB {
 		return nil
 	}
 	return db
+}
+
+func MigrateDB(conn *gorm.DB) {
+	conn.AutoMigrate(user.User{})
+	conn.AutoMigrate(book.Book{})
+	conn.AutoMigrate(rent.Rent{})
 }
