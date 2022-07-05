@@ -8,7 +8,6 @@ import (
 
 type Book struct {
 	gorm.Model
-	ID     uint   `gorm:"primaryKey; not null"`
 	Name   string `gorm:"not null"`
 	Type   string `gorm:"not null"`
 	Status bool   `gorm:"type:bool;default:false"`
