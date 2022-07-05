@@ -25,9 +25,9 @@ func main() {
 		case 1:
 			Register()
 		case 2:
-			fmt.Println("")
+			Login()
 		case 3:
-			fmt.Println("")
+			SeeBooks()
 		case 99:
 			fmt.Println("Exiting program...")
 		default:
