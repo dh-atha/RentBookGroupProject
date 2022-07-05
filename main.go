@@ -2,6 +2,7 @@ package main
 
 import (
 	"RentBookGroupProject/db"
+	"RentBookGroupProject/entities/book"
 	"RentBookGroupProject/entities/user"
 	"bufio"
 	"fmt"
@@ -33,7 +34,7 @@ func main() {
 		case 2:
 			Login()
 		case 3:
-			SeeBooks()
+			SeeBooks(conn)
 		case 99:
 			fmt.Println("Exiting program...")
 		default:
@@ -55,7 +56,6 @@ func Register(db *gorm.DB) {
 	password := scanner.Text()
 
 	user := user.User{Name: name, Email: email, Password: password}
-	// fmt.Println(user)
 	result := db.Create(&user)
 
 	if result.Error != nil {
@@ -67,4 +67,19 @@ func Register(db *gorm.DB) {
 
 func Login() {}
 
-func SeeBooks() {}
+func SeeBooks(db *gorm.DB) {
+	var booksData []book.Book
+	result := db.Find(&booksData)
+
+	if result.Error != nil {
+		log.Println("Error occured")
+	} else {
+		for i := 0; i < len(booksData); i++ {
+			fmt.Print("\n")
+			fmt.Println("ID: ", booksData[i].ID)
+			fmt.Println("Name: ", booksData[i].Name)
+			fmt.Println("Type: ", booksData[i].Type)
+			fmt.Println("Rented? ", booksData[i].Status)
+		}
+	}
+}
