@@ -19,8 +19,9 @@ type User struct {
 }
 
 func Register(db *gorm.DB) {
+	var dataUser User
 	scanner := bufio.NewScanner(os.Stdin)
-	fmt.Println("\n---Register---")
+	fmt.Println("\n\t---Register---")
 	fmt.Print("Your name: ")
 	scanner.Scan()
 	name := scanner.Text()
@@ -30,18 +31,20 @@ func Register(db *gorm.DB) {
 	fmt.Print("Password: ")
 	scanner.Scan()
 	password := scanner.Text()
+	fmt.Println()
 	if name == "" || email == "" || password == "" {
 		fmt.Println("\nCant register, Name or Email or Password cant be blank!")
 		return
 	}
 
 	user := User{Name: name, Email: email, Password: password}
-	result := db.Create(&user)
+	result := db.Where("email = ? AND password = ?", email, password).First(&dataUser)
 
-	if result.Error != nil {
-		log.Println("Email registered")
-	} else {
+	if result == nil {
+		db.Create(&user)
 		fmt.Println("Successfully registered")
+	} else {
+		log.Println("Email registered")
 	}
 }
 
@@ -51,15 +54,16 @@ func Login(db *gorm.DB) bool {
 	var check bool
 
 	scanner := bufio.NewScanner(os.Stdin)
-	fmt.Println("\n---Login---")
+	fmt.Println("\n\t---Login---")
 	fmt.Print("Your email: ")
 	scanner.Scan()
 	email := scanner.Text()
 	fmt.Print("Password: ")
 	scanner.Scan()
 	password := scanner.Text()
+	fmt.Println()
 
-	result := db.Where("email = ? AND password = ?", email, password).First(&UserData)
+	result := db.Where("email = ? AND password = ?", email, password).Find(&UserData)
 	if result.RowsAffected < 1 {
 		log.Println("The email or password is incorrect")
 	} else {
@@ -73,10 +77,12 @@ func SeeProfile(db *gorm.DB) {
 	//saat lihat profil ada pilihan yg mengarahkan ke opsi edit, delete atau kembali ke dashboard
 	var inputMenu int
 	fmt.Println("\n---See Profile---")
-	fmt.Println("ID:", UserData.ID)
-	fmt.Println("Name:", UserData.Name)
-	fmt.Println("1. Edit")
+	fmt.Println("ID   :", UserData.ID)
+	fmt.Println("Name :", UserData.Name)
+	fmt.Println("Email:", UserData.Email)
+	fmt.Println("\n1. Edit")
 	fmt.Println("2. Delete")
+	fmt.Println("00. Previous")
 	fmt.Print("\nInput: ")
 	fmt.Scanln(&inputMenu)
 	switch inputMenu {
@@ -84,6 +90,11 @@ func SeeProfile(db *gorm.DB) {
 		EditProfile()
 	case 2:
 		DeleteProfile()
+	case 00:
+		return
+	default:
+		fmt.Println("\nMenu tidak terdaftar")
+		SeeProfile(db)
 	}
 }
 
