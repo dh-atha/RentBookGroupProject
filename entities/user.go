@@ -1,8 +1,6 @@
-package user
+package entities
 
 import (
-	"RentBookGroupProject/entities/book"
-	"RentBookGroupProject/entities/rent"
 	"bufio"
 	"fmt"
 	"log"
@@ -13,11 +11,11 @@ import (
 
 type User struct {
 	gorm.Model
-	Name     string      `gorm:"not null"`
-	Email    string      `gorm:"not null;unique"`
-	Password string      `gorm:"not null;"`
-	Books    []book.Book `gorm:"foreignKey:UserID"`
-	Rents    []rent.Rent `gorm:"foreignKey:UserID"`
+	Name     string `gorm:"not null"`
+	Email    string `gorm:"not null;unique"`
+	Password string `gorm:"not null;"`
+	Books    []Book `gorm:"foreignKey:UserID"`
+	Rents    []Rent `gorm:"foreignKey:UserID"`
 }
 
 func Register(db *gorm.DB) {
@@ -47,7 +45,7 @@ func Register(db *gorm.DB) {
 	}
 }
 
-var userData User
+var UserData User // Data User yang lagi login
 
 func Login(db *gorm.DB) bool {
 	var check bool
@@ -61,7 +59,7 @@ func Login(db *gorm.DB) bool {
 	scanner.Scan()
 	password := scanner.Text()
 
-	result := db.Where("email = ? AND password = ?", email, password).First(&userData)
+	result := db.Where("email = ? AND password = ?", email, password).First(&UserData)
 	if result.RowsAffected < 1 {
 		log.Println("The email or password is incorrect")
 	} else {
@@ -75,8 +73,8 @@ func SeeProfile(db *gorm.DB) {
 	//saat lihat profil ada pilihan yg mengarahkan ke opsi edit, delete atau kembali ke dashboard
 	var inputMenu int
 	fmt.Println("\n---See Profile---")
-	fmt.Println("ID:", userData.ID)
-	fmt.Println("Name:", userData.Name)
+	fmt.Println("ID:", UserData.ID)
+	fmt.Println("Name:", UserData.Name)
 	fmt.Println("1. Edit")
 	fmt.Println("2. Delete")
 	fmt.Print("\nInput: ")

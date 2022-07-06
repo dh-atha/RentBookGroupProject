@@ -2,9 +2,7 @@ package main
 
 import (
 	"RentBookGroupProject/db"
-	"RentBookGroupProject/entities/book"
-	"RentBookGroupProject/entities/rent"
-	"RentBookGroupProject/entities/user"
+	"RentBookGroupProject/entities"
 	"fmt"
 )
 
@@ -26,9 +24,9 @@ func main() {
 
 		switch inputMenuAwal {
 		case 1:
-			user.Register(conn)
+			entities.Register(conn)
 		case 2:
-			check := user.Login(conn)
+			check := entities.Login(conn)
 			if check {
 				var inputMenuDashboard int
 				fmt.Println("\n---Dashboard---")
@@ -44,13 +42,13 @@ func main() {
 				for inputMenuDashboard != 99 {
 					switch inputMenuDashboard {
 					case 1:
-						user.SeeProfile(conn)
+						entities.SeeProfile(conn)
 					case 2:
-						book.MyBooks()
+						entities.MyBooks()
 					case 3:
-						rent.BooksRented()
+						entities.BooksRented()
 					case 4:
-						rent.ReturnBook()
+						entities.ReturnBook()
 					case 99:
 						fmt.Println("Exit Dashboard")
 					default:
@@ -61,7 +59,7 @@ func main() {
 				continue
 			}
 		case 3:
-			book.SeeBooks(conn)
+			entities.SeeBooks(conn)
 		case 99:
 			fmt.Println("Exiting program...")
 		default:

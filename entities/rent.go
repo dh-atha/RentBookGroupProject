@@ -1,4 +1,4 @@
-package rent
+package entities
 
 import (
 	"gorm.io/gorm"

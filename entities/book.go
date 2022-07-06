@@ -1,7 +1,6 @@
-package book
+package entities
 
 import (
-	"RentBookGroupProject/entities/rent"
 	"fmt"
 	"log"
 
@@ -14,7 +13,7 @@ type Book struct {
 	Type   string `gorm:"not null"`
 	Status bool   `gorm:"type:bool;default:false"`
 	UserID uint
-	Rents  []rent.Rent `gorm:"foreignKey:BookID"`
+	Rents  []Rent `gorm:"foreignKey:BookID"`
 }
 
 func AddBook() {}
@@ -35,6 +34,8 @@ func SeeBooks(db *gorm.DB) {
 			fmt.Println("-------------------------------------")
 		}
 	}
+
+	// fmt.Println(UserData) // Isinya data user yang lagi login
 }
 
 func EditBook() {}
