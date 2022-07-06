@@ -31,7 +31,7 @@ func AddBook(db *gorm.DB) {
 
 	fmt.Println()
 	if name == "" || tipe == "" {
-		fmt.Println("Please fill the blank!")
+		fmt.Println("Please fill field before continue!")
 		return
 	}
 
@@ -87,62 +87,54 @@ func SeeBooks(db *gorm.DB) {
 }
 
 func EditBook(db *gorm.DB) {
-	var input int
 	var listBook Book
 	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Println("\n\t---Edit Book---")
 	fmt.Print("ID Book: ")
 	scanner.Scan()
 	bid := scanner.Text()
-	fmt.Println("Choose what you want to edit:\n1. Name\n2. Type\n3. Status")
-	fmt.Print("\nInput: ")
-	fmt.Scan(&input)
-	fmt.Println()
 
 	result := db.Where("id = ? AND user_id = ?", bid, UserData.ID).Find(&listBook)
 	if result.RowsAffected < 1 {
-		fmt.Println("Can't Edit this book")
+		fmt.Println("\nCan't Edit this book")
 	} else {
-		if input == 1 {
-			fmt.Print("\nNew Name: ")
+		name := listBook.Name
+		tipe := listBook.Type
+		status := listBook.Status
+		fmt.Println("Choose what you want to edit:\n1. Name\n2. Type\n3. Status")
+		fmt.Print("\nInput: ")
+		scanner.Scan()
+		input := scanner.Text()
+		if input == "1" {
+			fmt.Print("New Name: ")
 			scanner.Scan()
-			name := scanner.Text()
+			name = scanner.Text()
 			fmt.Println()
-
-			err := db.Model(&listBook).Update("name", name)
-			if err.Error != nil {
-				fmt.Println("Error occured")
-			}
-			log.Println("Succesfully Updated")
-		} else if input == 2 {
-			fmt.Print("\nNew Type: ")
+		} else if input == "2" {
+			fmt.Print("New Type: ")
 			scanner.Scan()
-			tipe := scanner.Text()
+			tipe = scanner.Text()
 			fmt.Println()
-
-			err := db.Model(&listBook).Update("type", tipe)
-			if err.Error != nil {
-				fmt.Println("Error occured")
-			}
-			log.Println("Succesfully Updated")
-		} else if input == 3 {
-			var status bool
-			fmt.Print("\nNew Status: ")
+		} else if input == "3" {
+			fmt.Print("New Status: ")
 			fmt.Scan(&status)
 			fmt.Println()
-
-			err := db.Model(&listBook).Update("status", status)
-			if err.Error != nil {
-				fmt.Println("Error occured")
-			}
-			log.Println("Succesfully Updated")
 		} else {
 			fmt.Println("Wrong input menu")
 			EditBook(db)
 		}
+
+		listBook.Name = name
+		listBook.Type = tipe
+		listBook.Status = status
+		err := db.Save(&listBook)
+		if err.Error != nil {
+			fmt.Println("Error occured")
+		} else {
+			log.Println("Succesfully Updated")
+		}
 	}
 	MyBooks(db)
-
 }
 
 func DeleteBook(db *gorm.DB) {
@@ -152,26 +144,24 @@ func DeleteBook(db *gorm.DB) {
 	fmt.Print("ID Book: ")
 	scanner.Scan()
 	bid := scanner.Text()
-	fmt.Println()
 
 	result := db.Where("id = ? AND user_id = ?", bid, UserData.ID).Find(&listBook)
 	if result.RowsAffected < 1 {
-		fmt.Println("This book is not yours")
+		fmt.Println("\nThis book is not yours")
 	} else {
 		var input string
-		fmt.Print("Are you sure to delete this book?\nYour book title is ", listBook.Name, "(Y/N)")
+		fmt.Println("Are you sure to delete this book?\nYour book title is ", listBook.Name, " (Y/N)")
 		fmt.Scan(&input)
 		fmt.Println()
-		switch input {
-		case "Y":
+		if input == "Y" || input == "y" {
 			err := db.Delete(&listBook)
 			if err.Error != nil {
-				fmt.Println("Can't delete this book")
+				fmt.Println("\nCan't delete this book")
 			}
 			log.Println("Your book was deleted")
-		case "N":
+		} else if input == "N" || input == "n" {
 			fmt.Println("Canceled")
-		default:
+		} else {
 			fmt.Println("Wrong input menu")
 			DeleteBook(db)
 		}
