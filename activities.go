@@ -1,4 +1,4 @@
-package book
+package main
 
 import (
 	"RentBookGroupProject/entities/book"
@@ -8,7 +8,22 @@ import (
 	"gorm.io/gorm"
 )
 
-func AddBook() {}
+func SeeProfile(db *gorm.DB) {
+	//saat lihat profil ada pilihan yg mengarahkan ke opsi edit, delete atau kembali ke dashboard
+	fmt.Println("\n---See Profile---")
+	userData := GetUserData()
+	fmt.Println("Name     : ", userData.Name)
+	fmt.Println("Email    : ", userData.Email)
+	fmt.Println("Password : ", userData.Password)
+}
+
+func EditProfile() {
+	//ketika edit profil berhasil langsung kembali ke seeprofile
+}
+
+func DeleteProfile() {
+	//ketika delete profile berhasil langsung kembali ke homemenu
+}
 
 func SeeBooks(db *gorm.DB) {
 	var booksData []book.Book
@@ -33,3 +48,9 @@ func EditBook() {}
 func DeleteBook() {}
 
 func MyBooks() {}
+
+func RentBook() {}
+
+func BooksRented() {}
+
+func ReturnBook() {}
