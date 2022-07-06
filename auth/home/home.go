@@ -1,6 +1,7 @@
 package home
 
 import (
+	"RentBookGroupProject/activities/book"
 	"RentBookGroupProject/auth/login"
 	"RentBookGroupProject/auth/register"
 	"RentBookGroupProject/db"
@@ -27,8 +28,9 @@ func HomeMenu() {
 		register.Register(conn)
 	case 2:
 		login.Login(conn)
-	// case 3:
-	// 	SeeBooks(conn)
+	case 3:
+		book.SeeBooks(conn)
+		HomeMenu()
 	case 99:
 		fmt.Println("Exiting program...")
 	default:
