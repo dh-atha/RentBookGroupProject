@@ -9,3 +9,9 @@ type Rent struct {
 	UserID uint
 	BookID uint
 }
+
+func RentBook() {}
+
+func BooksRented() {}
+
+func ReturnBook() {}
