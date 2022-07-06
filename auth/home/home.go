@@ -26,6 +26,7 @@ func HomeMenu() {
 	switch inputMenuAwal {
 	case 1:
 		register.Register(conn)
+		HomeMenu()
 	case 2:
 		login.Login(conn)
 	case 3:

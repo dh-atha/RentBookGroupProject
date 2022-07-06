@@ -24,6 +24,7 @@ func Register(db *gorm.DB) {
 	password := scanner.Text()
 	if name == "" || email == "" || password == "" {
 		fmt.Println("Name or Email or Password cant be blank!")
+		Register(db)
 		return
 	}
 
@@ -32,7 +33,6 @@ func Register(db *gorm.DB) {
 
 	if result.Error != nil {
 		log.Println("Email registered")
-		Register(db)
 	} else {
 		fmt.Println("Successfully registered")
 	}
