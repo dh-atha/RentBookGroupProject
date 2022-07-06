@@ -1,7 +1,7 @@
-package book
+package books
 
 import (
-	"RentBookGroupProject/entities/rent"
+	rents "RentBookGroupProject/entities/rent"
 
 	"gorm.io/gorm"
 )
@@ -12,5 +12,5 @@ type Book struct {
 	Type   string `gorm:"not null"`
 	Status bool   `gorm:"type:bool;default:false"`
 	UserID uint
-	Rents  []rent.Rent `gorm:"foreignKey:BookID"`
+	Rents  []rents.Rent `gorm:"foreignKey:BookID"`
 }

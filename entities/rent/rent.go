@@ -1,4 +1,4 @@
-package rent
+package rents
 
 import (
 	"gorm.io/gorm"
