@@ -33,8 +33,7 @@ func Register(db *gorm.DB) {
 	scanner.Scan()
 	password := scanner.Text()
 	if name == "" || email == "" || password == "" {
-		fmt.Println("Name or Email or Password cant be blank!")
-		Register(db)
+		fmt.Println("\nCant register, Name or Email or Password cant be blank!")
 		return
 	}
 
@@ -50,7 +49,9 @@ func Register(db *gorm.DB) {
 
 var userData User
 
-func Login(db *gorm.DB) {
+func Login(db *gorm.DB) bool {
+	var check bool
+
 	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Println("\n---Login---")
 	fmt.Print("Your email: ")
@@ -63,17 +64,18 @@ func Login(db *gorm.DB) {
 	result := db.Where("email = ? AND password = ?", email, password).First(&userData)
 	if result.RowsAffected < 1 {
 		log.Println("The email or password is incorrect")
-		Login(db)
 	} else {
 		log.Println("Login Success")
+		check = true
 	}
+	return check
 }
 
 func SeeProfile(db *gorm.DB) {
 	//saat lihat profil ada pilihan yg mengarahkan ke opsi edit, delete atau kembali ke dashboard
 	var inputMenu int
 	fmt.Println("\n---See Profile---")
-	fmt.Println("ID:", userData.Name)
+	fmt.Println("ID:", userData.ID)
 	fmt.Println("Name:", userData.Name)
 	fmt.Println("1. Edit")
 	fmt.Println("2. Delete")
