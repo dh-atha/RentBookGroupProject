@@ -1,4 +1,4 @@
-package rents
+package rent
 
 import (
 	"gorm.io/gorm"
@@ -9,3 +9,9 @@ type Rent struct {
 	UserID uint
 	BookID uint
 }
+
+func RentBook() {}
+
+func BooksRented() {}
+
+func ReturnBook() {}
