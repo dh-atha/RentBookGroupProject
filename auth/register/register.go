@@ -22,6 +22,10 @@ func Register(db *gorm.DB) {
 	fmt.Print("Password: ")
 	scanner.Scan()
 	password := scanner.Text()
+	if name == "" || email == "" || password == "" {
+		fmt.Println("Name or Email or Password cant be blank!")
+		return
+	}
 
 	user := user.User{Name: name, Email: email, Password: password}
 	result := db.Create(&user)
