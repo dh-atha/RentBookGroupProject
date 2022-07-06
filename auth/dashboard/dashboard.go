@@ -26,7 +26,7 @@ func DashboardMenu() {
 
 	switch inputMenu {
 	case 1:
-		user.SeeProfile()
+		user.SeeProfile(conn)
 	case 2:
 		book.MyBooks()
 	case 3:

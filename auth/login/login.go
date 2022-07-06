@@ -10,8 +10,9 @@ import (
 	"gorm.io/gorm"
 )
 
+var userData []user.User
+
 func Login(db *gorm.DB) {
-	var userData []user.User
 	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Println("\n---Login---")
 	fmt.Print("Your email: ")
@@ -29,4 +30,8 @@ func Login(db *gorm.DB) {
 	} else {
 		log.Println("Login Success")
 	}
+}
+
+func GetUserData() user.User {
+	return userData[0]
 }
