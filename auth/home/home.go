@@ -2,6 +2,7 @@ package home
 
 import (
 	"RentBookGroupProject/activities/book"
+	"RentBookGroupProject/auth/dashboard"
 	"RentBookGroupProject/auth/login"
 	"RentBookGroupProject/auth/register"
 	"RentBookGroupProject/db"
@@ -29,6 +30,7 @@ func HomeMenu() {
 		HomeMenu()
 	case 2:
 		login.Login(conn)
+		dashboard.DashboardMenu()
 	case 3:
 		book.SeeBooks(conn)
 		HomeMenu()
@@ -36,5 +38,6 @@ func HomeMenu() {
 		fmt.Println("Exiting program...")
 	default:
 		fmt.Println("Menu tidak terdaftar")
+		HomeMenu()
 	}
 }

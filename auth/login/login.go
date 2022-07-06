@@ -23,11 +23,10 @@ func Login(db *gorm.DB) {
 
 	// result := db.Raw("SELECT email, password FROM users WHERE email = ? && password = ?", email, password).Scan(&userData)
 	result := db.Where("email = ? AND password = ?", email, password).Find(&userData)
-	if result.Error == nil {
+	if result.RowsAffected < 1 {
 		log.Println("The email or password is incorrect")
-		// Login(db)
+		Login(db)
 	} else {
 		log.Println("Login Success")
 	}
-	// dashboard.Dashboard()
 }

@@ -1,8 +1,6 @@
 package main
 
-import (
-	"RentBookGroupProject/auth/home"
-)
+import "RentBookGroupProject/auth/home"
 
 func main() {
 	home.HomeMenu()

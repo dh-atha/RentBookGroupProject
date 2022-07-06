@@ -14,7 +14,7 @@ func DashboardMenu() {
 	db.MigrateDB(conn)
 
 	var inputMenu int
-	fmt.Print("\n---Dashboard---")
+	fmt.Println("\n---Dashboard---")
 	fmt.Println("1. Profile")
 	fmt.Println("2. My Own Books")
 	fmt.Println("3. Book I Rented")
@@ -38,5 +38,6 @@ func DashboardMenu() {
 		fmt.Println("Exiting program...")
 	default:
 		fmt.Println("Menu tidak terdaftar")
+		DashboardMenu()
 	}
 }
