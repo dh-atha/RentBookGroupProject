@@ -11,7 +11,7 @@ import (
 )
 
 func InitDB() *gorm.DB {
-	db, err := gorm.Open(mysql.Open("root:@tcp(127.0.0.1:3306)/rentbookgroupproject"), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open("root:@tcp(127.0.0.1:3306)/rentbookgroupproject?parseTime=true"), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)
 		return nil
