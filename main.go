@@ -28,8 +28,7 @@ func main() {
 		case 2:
 			check := entities.Login(conn)
 			if check {
-				var inputMenuDashboard int
-				for inputMenuDashboard != 99 {
+				for entities.InputMenuDashboard != 99 {
 					fmt.Println("\n\t---Dashboard---")
 					fmt.Println("Welcome,", entities.UserData.Name, "!")
 					fmt.Println("1. Profile")
@@ -39,9 +38,9 @@ func main() {
 					fmt.Print("\n")
 					fmt.Print("99. Log Out\n\n")
 					fmt.Print("Input: ")
-					fmt.Scanln(&inputMenuDashboard)
+					fmt.Scanln(&entities.InputMenuDashboard)
 
-					switch inputMenuDashboard {
+					switch entities.InputMenuDashboard {
 					case 1:
 						entities.SeeProfile(conn)
 					case 2:

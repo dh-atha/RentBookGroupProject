@@ -87,9 +87,9 @@ func SeeProfile(db *gorm.DB) {
 	fmt.Scanln(&inputMenu)
 	switch inputMenu {
 	case 1:
-		EditProfile()
+		EditProfile(db)
 	case 2:
-		DeleteProfile()
+		DeleteProfile(db)
 	case 00:
 		return
 	default:
@@ -98,12 +98,69 @@ func SeeProfile(db *gorm.DB) {
 	}
 }
 
-func EditProfile() {
+func EditProfile(db *gorm.DB) {
 	//ketika edit profil berhasil langsung kembali ke seeprofile
-	fmt.Println("EDIT")
+	scanner := bufio.NewScanner(os.Stdin)
+	fmt.Println("\n\t---Edit Profile---")
+	name := UserData.Name
+	email := UserData.Email
+	pass := UserData.Password
+	fmt.Println("Choose what you want to edit:\n1. Name\n2. Email\n3. Password")
+	fmt.Print("\nInput: ")
+	scanner.Scan()
+	input := scanner.Text()
+	if input == "1" {
+		fmt.Print("New Name: ")
+		scanner.Scan()
+		name = scanner.Text()
+		fmt.Println()
+	} else if input == "2" {
+		fmt.Print("New Email: ")
+		scanner.Scan()
+		email = scanner.Text()
+		fmt.Println()
+	} else if input == "3" {
+		fmt.Print("New Password: ")
+		scanner.Scan()
+		pass = scanner.Text()
+		fmt.Println()
+	} else {
+		fmt.Println("Wrong input menu")
+		EditProfile(db)
+	}
+
+	UserData.Name = name
+	UserData.Email = email
+	UserData.Password = pass
+	err := db.Save(&UserData)
+	if err.Error != nil {
+		fmt.Println("Error occured")
+	} else {
+		log.Println("Succesfully Updated")
+	}
+
 }
 
-func DeleteProfile() {
+var InputMenuDashboard int
+
+func DeleteProfile(db *gorm.DB) {
 	//ketika delete profile berhasil langsung kembali ke homemenu
-	fmt.Println("DELETE")
+	fmt.Println("\n\t---Delete Profile---")
+	var input string
+	fmt.Println("Are you sure to delete your profile? (Y/N)")
+	fmt.Scan(&input)
+	fmt.Println()
+	if input == "Y" || input == "y" {
+		err := db.Delete(&UserData)
+		if err.Error != nil {
+			fmt.Println("\nCan't delete your profile")
+		}
+		fmt.Println("Processing...")
+		InputMenuDashboard = 99
+	} else if input == "N" || input == "n" {
+		fmt.Println("Canceled")
+	} else {
+		fmt.Println("Wrong input menu")
+		DeleteProfile(db)
+	}
 }
