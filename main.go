@@ -50,13 +50,13 @@ func main() {
 					case 4:
 						entities.BooksRented(conn)
 					case 99:
-						// entities.UserData = entities.User{}
-						// fmt.Println(entities.UserData)
 						fmt.Println("\nExit Dashboard")
+						inputMenuAwal = 0
 					default:
 						fmt.Println("\nWrong input menu")
 					}
 				}
+				entities.InputMenuDashboard = 0
 			} else {
 				continue
 			}
