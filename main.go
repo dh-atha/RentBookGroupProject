@@ -28,6 +28,7 @@ func main() {
 		case 2:
 			check := entities.Login(conn)
 			if check {
+				entities.InputMenuDashboard = 0
 				for entities.InputMenuDashboard != 99 {
 					fmt.Println("\n\t---Dashboard---")
 					fmt.Println("Welcome,", entities.UserData.Name, "!")
@@ -43,6 +44,7 @@ func main() {
 					switch entities.InputMenuDashboard {
 					case 1:
 						entities.SeeProfile(conn)
+						inputMenuAwal = 0
 					case 2:
 						entities.MyBooks(conn)
 					case 3:
@@ -50,8 +52,6 @@ func main() {
 					case 4:
 						entities.BooksRented(conn)
 					case 99:
-						// entities.UserData = entities.User{}
-						// fmt.Println(entities.UserData)
 						fmt.Println("\nExit Dashboard")
 					default:
 						fmt.Println("\nWrong input menu")

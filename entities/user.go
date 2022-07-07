@@ -38,13 +38,13 @@ func Register(db *gorm.DB) {
 	}
 
 	user := User{Name: name, Email: email, Password: password}
-	result := db.Where("email = ? AND password = ?", email, password).First(&dataUser)
+	result := db.Where("email = ? AND password = ?", email, password).Find(&dataUser)
 
-	if result == nil {
+	if result.Error != nil {
+		log.Println("Email registered")
+	} else {
 		db.Create(&user)
 		fmt.Println("Successfully registered")
-	} else {
-		log.Println("Email registered")
 	}
 }
 
@@ -151,6 +151,12 @@ func DeleteProfile(db *gorm.DB) {
 	fmt.Scan(&input)
 	fmt.Println()
 	if input == "Y" || input == "y" {
+		rentData := []Rent{}
+		db.Where("User_ID = ?", UserData.ID).Find(&rentData)
+		if len(rentData) != 0 {
+			fmt.Println("Return book before deleting your account!")
+			return
+		}
 		BookData := Book{}
 		err := db.Delete(&UserData)
 		db.Where("User_ID = ?", UserData.ID).Delete(&BookData)

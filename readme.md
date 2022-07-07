@@ -10,4 +10,4 @@ Phase 1 CLI-Based Group Project in Backend Engineering Immersive Program by Alte
 
 ### Known Bugs
 
--   Cant login immediately after logging out, must exit the program and run the program again.
+-   Update email when email is already registered
