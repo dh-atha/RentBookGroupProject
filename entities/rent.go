@@ -77,11 +77,15 @@ func RentBook(db *gorm.DB) {
 
 	if res.RowsAffected < 1 {
 		fmt.Println("Couldn't find a book that matches that bookID and userID")
+	} else if bookData.Status == false {
+		fmt.Println("Book not available to rent")
 	} else {
 		rentData.UserID = UserData.ID
 		rentData.BookID = bookData.ID
 		db.Create(&rentData)
 		fmt.Println("Successfully rent a book!")
+		bookData.Status = false
+		db.Save(&bookData)
 	}
 }
 
