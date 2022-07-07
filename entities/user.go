@@ -151,7 +151,9 @@ func DeleteProfile(db *gorm.DB) {
 	fmt.Scan(&input)
 	fmt.Println()
 	if input == "Y" || input == "y" {
+		BookData := Book{}
 		err := db.Delete(&UserData)
+		db.Where("User_ID = ?", UserData.ID).Delete(&BookData)
 		if err.Error != nil {
 			fmt.Println("\nCan't delete your profile")
 		}

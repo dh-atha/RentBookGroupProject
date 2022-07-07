@@ -63,6 +63,7 @@ func SeeBooks(db *gorm.DB) {
 			fmt.Println("Type\t: ", booksData[i].Type)
 			db.Where("id = ?", booksData[i].UserID).Find(&userName)
 			fmt.Println("Owner\t: ", userName.Name)
+			fmt.Println("Owner ID: ", booksData[i].UserID)
 			if booksData[i].Status == true {
 				fmt.Println("Status\t:  Available")
 			} else {
