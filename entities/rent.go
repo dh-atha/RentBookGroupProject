@@ -111,12 +111,12 @@ func ReturnBook(db *gorm.DB) {
 		if res.RowsAffected < 1 {
 			fmt.Println("Cant delete that rent data, its either not yours or wrong rentID input")
 		} else {
-			fmt.Println("Successfully returning book")
 			var bookData Book
 			db.Where("id = ?", rentData.BookID).Find(&bookData)
 			bookData.Status = true
 			db.Save(&bookData)
 			db.Delete(&rentData)
+			fmt.Println("Successfully returning book")
 		}
 	}
 }
