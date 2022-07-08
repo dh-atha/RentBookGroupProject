@@ -100,11 +100,12 @@ func SeeProfile(db *gorm.DB) {
 
 func EditProfile(db *gorm.DB) {
 	//ketika edit profil berhasil langsung kembali ke seeprofile
+	var editedUserData = UserData
 	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Println("\n\t---Edit Profile---")
-	name := UserData.Name
-	email := UserData.Email
-	pass := UserData.Password
+	name := editedUserData.Name
+	email := editedUserData.Email
+	pass := editedUserData.Password
 	fmt.Println("Choose what you want to edit:\n1. Name\n2. Email\n3. Password")
 	fmt.Print("\nInput: ")
 	scanner.Scan()
@@ -129,13 +130,16 @@ func EditProfile(db *gorm.DB) {
 		EditProfile(db)
 	}
 
-	UserData.Name = name
-	UserData.Email = email
-	UserData.Password = pass
-	err := db.Save(&UserData)
+	editedUserData.Name = name
+	editedUserData.Email = email
+	editedUserData.Password = pass
+	err := db.Save(&editedUserData)
 	if err.Error != nil {
 		fmt.Println("Error occured")
 	} else {
+		UserData.Name = editedUserData.Name
+		UserData.Email = editedUserData.Email
+		UserData.Password = editedUserData.Password
 		log.Println("Succesfully Updated")
 	}
 

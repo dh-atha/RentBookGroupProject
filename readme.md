@@ -10,4 +10,4 @@ Phase 1 CLI-Based Group Project in Backend Engineering Immersive Program by Alte
 
 ### Known Bugs
 
--   Update email when email is already registered
+-   Not find yet haha
